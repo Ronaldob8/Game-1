@@ -1,0 +1,10 @@
+*{
+    background-color: 	#2d2d30;
+}
+h1 {
+    text-align: center;
+    color: #767D92;
+}
+img{
+    transform: rotate(90deg);
+}
