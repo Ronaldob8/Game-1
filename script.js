@@ -1,47 +1,74 @@
-function createImg(link, left, bottom) {
-let item = document.createElement('img')
-item.src = link
-item.style.position = 'fixed'
-item.style.left = left + 'px'
-item.style.bottom = bottom + 'px'
-document.body.append(item)
-return item
-}
+let redSquare = newPlayer('pic/redSquare.png')
+redSquare.style.zIndex = 0
+
+
 function newPlayer(link) {
     let player = document.createElement('img')
     player.src = link
     document.body.append(player)
     return player
 }
-function move(img, left, bottom) {
-img.style.position = 'fixed'
-img.style.left = left + 'px'
-img.style.bottom = bottom + 'px'
+function move(img) {
+    img.style.position = 'fixed'
+
+    function moveTo(left, bottom) {
+        img.style.left = left + 'px'
+        img.style.bottom = bottom + 'px'
+         
+        }
+        function moveWithArrows(left, bottom, callback) {
+            let direction = null;
+            let x = left;
+            let y = bottom;
+
+            img.style.left = x + 'px'
+            img.style.bottom = y + 'px'
+        
+        function movePlayer() {
+        if(direction === 'north') {
+            y += 40
+        }
+        if(direction === 'east') {
+            x += 40
+        }
+        if(direction === 'south') {
+            y -= 40
+        }
+        if(direction === 'west') {
+            x -= 40
+        }
+        redSquare.style.left = x + 'px'
+        redSquare.style.bottom = y + 'px'
+        callback(direction)
+    }
+        setInterval(movePlayer, 150)
+
+        document.addEventListener('keydown', function(e) {
+            
+
+            if(e.key === 'ArrowUp') {
+                direction = 'north'
+            }
+            if(e.key === 'ArrowRight') {
+                direction = 'east'
+            }
+            if(e.key === 'ArrowDown') {
+                direction = 'south'
+            }
+            if(e.key === 'ArrowLeft') {
+            direction = 'west'
+            }
+           callback(direction)
+    })
+        document.addEventListener('keyup', function(e) {
+            direction = null;
+            
+        })
+    }
+    return {
+        to: moveTo,
+        WithArrowKeys: moveWithArrows
+    }
 }
-newPlayer('pic/redSquare.png')
+move(redSquare).WithArrowKeys(1250,1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-//npcs
-createImg('pic/2ndCar.png', 1, 45)
-createImg('pic/2ndCar.png', 1, 800)
-
-createImg('pic/semiTruck.png', 1, 600)
-createImg('pic/semiTruck.png', 1, 750)
-
-
-createImg('pic/racerCar.png', 1, 700)
-createImg('pic/racerCar.png', 1, 300)
-
-createImg('pic/slowCar.png', 1, 550)
-createImg('pic/slowCar.png', 1, 500)
